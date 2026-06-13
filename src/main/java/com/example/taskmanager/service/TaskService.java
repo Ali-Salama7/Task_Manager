@@ -16,22 +16,16 @@ public class TaskService {
     TaskDao taskDao;
 
 
-    public ResponseEntity<String> addTask(Task task) {
-        try {
-            taskDao.save(task);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Created");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("failed to create.");
-        }
+    public Task addTask(Task task) {
+        return taskDao.save(task);
     }
 
-    public ResponseEntity<List<Task>> getAllTask() {
+    public List<Task> getAllTask() {
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(taskDao.findAll());
+            return taskDao.findAll();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+            return new ArrayList<>();
         }
     }
 }
