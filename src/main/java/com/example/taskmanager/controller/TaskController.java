@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("task")
@@ -26,6 +27,19 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
         }
     }
+
+    @GetMapping("getTask/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Integer id){
+        try{
+            Optional<Task> task = taskService.getTaskById(id);
+            return task.map(value -> ResponseEntity.status(HttpStatus.OK).body(value))
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 
     @PostMapping("add")
     public ResponseEntity<String> addTask(@RequestBody Task task){
