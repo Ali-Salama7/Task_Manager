@@ -52,4 +52,14 @@ public class TaskController {
         }
     }
 
+    @PutMapping("update/{id}")
+    public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task task){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(taskService.updateTask(id, task));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }

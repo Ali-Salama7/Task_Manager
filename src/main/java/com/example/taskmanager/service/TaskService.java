@@ -2,6 +2,7 @@ package com.example.taskmanager.service;
 
 import com.example.taskmanager.dao.TaskDao;
 import com.example.taskmanager.entity.Task;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,17 @@ public class TaskService {
 
     public Optional<Task> getTaskById(Integer id) {
         return taskDao.findById(id);
+    }
+
+    public Task updateTask(Integer id, Task task) {
+        Task taskOptional = taskDao.findById(id).orElseThrow(
+                () -> new RuntimeException("Question not found")
+        );
+        taskOptional.setTitle(task.getTitle());
+        taskOptional.setDescription(task.getDescription());
+        taskOptional.setStatus(task.getStatus());
+        taskOptional.setPriority(task.getPriority());
+        taskOptional.setCreatedAt(task.getCreatedAt());
+        return taskDao.save(taskOptional);
     }
 }
