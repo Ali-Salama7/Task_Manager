@@ -1,6 +1,7 @@
 package com.example.taskmanager.service;
 
 import com.example.taskmanager.dao.TaskDao;
+import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,9 @@ public class TaskService {
         taskOptional.setPriority(task.getPriority());
         taskOptional.setCreatedAt(task.getCreatedAt());
         return taskDao.save(taskOptional);
+    }
+
+    public List<Task> getTaskByStatus(Status status) {
+        return taskDao.findByStatus(status);
     }
 }

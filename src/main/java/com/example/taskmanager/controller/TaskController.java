@@ -1,5 +1,6 @@
 package com.example.taskmanager.controller;
 
+import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
 import com.example.taskmanager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,17 @@ public class TaskController {
         }
     }
 
+    @GetMapping("status/{status}")
+    public ResponseEntity<List<Task>> getTaskByStatus(@PathVariable Status status){
+         try{
+             List<Task> tasks = taskService.getTaskByStatus(status);
+             return ResponseEntity.status(HttpStatus.OK).body(tasks);
+         } catch (Exception e) {
+             e.printStackTrace();
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+         }
+    }
+
 
     @PostMapping("add")
     public ResponseEntity<String> addTask(@RequestBody Task task){
@@ -61,5 +73,7 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+
 
 }
