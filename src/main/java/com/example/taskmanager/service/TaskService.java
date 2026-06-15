@@ -49,4 +49,13 @@ public class TaskService {
     public List<Task> getTaskByStatus(Status status) {
         return taskDao.findByStatus(status);
     }
+
+    public String deleteTask(Integer id) {
+        if (taskDao.existsById(id)){
+            taskDao.deleteById(id);
+            return "Task deleted successfully.";
+        } else {
+            return "Task not found with ID: " + id;
+        }
+    }
 }

@@ -74,6 +74,15 @@ public class TaskController {
         }
     }
 
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable Integer id){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(taskService.deleteTask(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Failed Delete.");
+        }
+    }
 
 
 }
