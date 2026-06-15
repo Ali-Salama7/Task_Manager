@@ -1,5 +1,6 @@
 package com.example.taskmanager.controller;
 
+import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
 import com.example.taskmanager.service.TaskService;
@@ -55,9 +56,9 @@ public class TaskController {
 
 
     @PostMapping("add")
-    public ResponseEntity<String> addTask(@Valid @RequestBody Task task){
+    public ResponseEntity<String> addTask(@Valid @RequestBody TaskRequestDTO taskDTO){
         try{
-            taskService.addTask(task);
+            taskService.addTask(taskDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created.");
         } catch (Exception e) {
             e.printStackTrace();

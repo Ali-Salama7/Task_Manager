@@ -1,6 +1,8 @@
-package com.example.taskmanager.entity;
+package com.example.taskmanager.dto;
 
-import jakarta.persistence.*;
+import com.example.taskmanager.entity.Status;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,15 +13,10 @@ import lombok.NoArgsConstructor;
 import java.sql.Date;
 import java.time.LocalDate;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Task {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class TaskRequestDTO {
     @NotBlank(message = "Title is required and cannot be empty")
     @Size(min = 3, max = 100, message = "Title must be between 3 and 100 characters")
     private String title;
@@ -28,15 +25,7 @@ public class Task {
     private String description;
 
     @NotNull(message = "Status is required")
-    @Enumerated(EnumType.STRING)
     private Status status;
     private String priority;
-    private LocalDate createdAt;
     private LocalDate dueDate;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDate.now();
-    }
-
 }

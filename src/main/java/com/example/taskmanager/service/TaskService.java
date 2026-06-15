@@ -1,9 +1,10 @@
 package com.example.taskmanager.service;
 
 import com.example.taskmanager.dao.TaskDao;
+import com.example.taskmanager.dto.TaskRequestDTO;
 import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
-import org.jspecify.annotations.Nullable;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,14 @@ public class TaskService {
     TaskDao taskDao;
 
 
-    public Task addTask(Task task) {
-        return taskDao.save(task);
+    public void addTask(@Valid TaskRequestDTO taskDTO) {
+        Task task = new Task();
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setStatus(taskDTO.getStatus());
+        task.setPriority(taskDTO.getPriority());
+        task.setDueDate(taskDTO.getDueDate());
+        taskDao.save(task);
     }
 
     public List<Task> getAllTask() {
