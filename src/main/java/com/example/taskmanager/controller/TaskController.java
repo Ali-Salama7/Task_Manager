@@ -3,6 +3,7 @@ package com.example.taskmanager.controller;
 import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
 import com.example.taskmanager.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class TaskController {
 
 
     @PostMapping("add")
-    public ResponseEntity<String> addTask(@RequestBody Task task){
+    public ResponseEntity<String> addTask(@Valid @RequestBody Task task){
         try{
             taskService.addTask(task);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created.");
