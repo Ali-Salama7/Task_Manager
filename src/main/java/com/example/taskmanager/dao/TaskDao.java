@@ -2,10 +2,13 @@ package com.example.taskmanager.dao;
 
 import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface TaskDao extends JpaRepository<Task, Integer> {
+    Page<Task> findByTitleContainingIgnoreCase(String title,Pageable pageable);
     List<Task> findByStatus(Status status);
 }

@@ -6,6 +6,7 @@ import com.example.taskmanager.entity.Task;
 import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +23,17 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping("getAll")
-    public ResponseEntity<List<Task>> getAllTask(){
+    public ResponseEntity<Page<Task>> getAllTask(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+    ){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllTask());
+            return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllTask(keyword, page, size, sortBy));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 

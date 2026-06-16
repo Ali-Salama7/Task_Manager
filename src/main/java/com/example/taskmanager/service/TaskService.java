@@ -6,6 +6,10 @@ import com.example.taskmanager.entity.Status;
 import com.example.taskmanager.entity.Task;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,13 +32,9 @@ public class TaskService {
         taskDao.save(task);
     }
 
-    public List<Task> getAllTask() {
-        try{
-            return taskDao.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+    public Page<Task> getAllTask(String keyword, int page, int size, String sortBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        return taskDao.findByTitleContainingIgnoreCase(keyword, pageable);
     }
 
     public Optional<Task> getTaskById(Integer id) {
